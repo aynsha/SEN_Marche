@@ -34,7 +34,8 @@ module.exports.signUp = async (req, res) => {
             email,
             numberPhone,
             password: cryptPassword,
-            role : 0  //0 is the default value for the user , and 1 is the value for admins
+            role,
+            // role : 0  0 is the default value for the user , and 1 is the value for admins
         });
 
         return res.status(201).json({ message: " successfully creation User  ...", user });
@@ -46,7 +47,7 @@ module.exports.signUp = async (req, res) => {
 // Connection or signIn
 module.exports.signIn = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password} = req.body;
         const user = await User.findOne({ email: email });
         // we verify if this  user exist if everything is ok we continued with the function next() !!!
         if (!user) {
@@ -54,7 +55,7 @@ module.exports.signIn = async (req, res) => {
         }
         const comparePassword = bcrypt.compareSync(password, user.password);
         if (!comparePassword) {
-            return res.status(401).json({ message: "Incorrect Password" })
+            return res.status(401).json({ message: "Incorrect Password"  })
         }
         const token = createToken(user._id, user.email, user.role)
         res.status(200).json({ message: "Successfully connection", token, user });
