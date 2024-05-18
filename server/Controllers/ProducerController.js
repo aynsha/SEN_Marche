@@ -13,27 +13,42 @@ const bcrypt = require("bcrypt")
 // Créer un nouveau producteur
 exports.createProducer = async (req, res) => {
     try {
-        const { producerName, email, password, phoneNumber , address, productName } = req.body;
+        const { imageProducer, producerName, email, password, phoneNumber, address, product, imageProduct } = req.body;
 
-        // Before creating a new user, we verify if this user already exists or not!!!
-
+        // Vérifier si l'email du producteur existe déjà
         const producerEmailExist = await Producer.findOne({ email });
         if (producerEmailExist) {
-            return res.status(409).json({ message: "Producer with this email is already Exist!" });
+            return res.status(409).json({ message: "Un producteur avec cet email existe déjà!" });
         }
-        // crypt password
+
+        // Crypter le mot de passe
         const salt = await bcrypt.genSalt(10);
         const cryptPassword = await bcrypt.hash(password, salt);
 
-        //Création d'un producteur
+        // Générer les URLs des images
+        const baseUrl = "http://localhost:5000/uploads/";
+        const producerImageUrl = baseUrl + `${imageProducer}`;
+        const productImageUrl= baseUrl + `${imageProduct}`
+
+        // Vérifier et traiter la propriété product
+        const products = product && Array.isArray(product) ? product.map(p => ({
+            productName: p.productName,
+            imageProduct: productImageUrl,
+            quantity: p.quantity,
+            isAvailable: p.isAvailable
+        })) : [];
+
+        // Créer un nouveau producteur
         const producer = new Producer({
-            producerName, 
-            email, 
-            password: cryptPassword, 
-            phoneNumber , 
+            imageProducer: producerImageUrl,
+            producerName,
+            email,
+            password: cryptPassword,
+            phoneNumber,
             address,
-            productName,
+            product: products
         });
+
         await producer.save();
         res.status(201).json(producer);
     } catch (err) {
@@ -65,19 +80,50 @@ exports.getProducerById = async (req, res) => {
 };
 
 // Mettre à jour un producteur
+
 exports.updateProducer = async (req, res) => {
     try {
-        const producer = await Producer.findById(req.params.id);
+        const producerId = req.params.producerId;
+        const { imageProducer, producerName, email, password, phoneNumber, address, product, imageProduct } = req.body;
+        const producer = await Producer.findById(producerId);
         if (!producer) {
             return res.status(404).json({ message: 'Producteur non trouvé' });
         }
-        Object.assign(producer, req.body);
+
+        // Générer les URLs des images
+        const baseUrl = "http://localhost:5000/uploads/";
+        const producerImageUrl = baseUrl + `${imageProducer}`;
+        const productImageUrl= baseUrl + `${imageProduct}`;
+
+        // Vérifier et traiter la propriété product
+        const products = product && Array.isArray(product) ? product.map(p => ({
+            productName: p.productName,
+            imageProduct: productImageUrl,
+            quantity: p.quantity,
+            isAvailable: p.isAvailable
+        })) : [];
+
+        // Hacher le mot de passe si modifié
+        if (password && password !== producer.password) {
+            const salt = await bcrypt.genSalt(10);
+            producer.password = await bcrypt.hash(password, salt);
+        }
+
+        // Mettre à jour les autres propriétés
+        producer.imageProducer = producerImageUrl;
+        producer.producerName = producerName;
+        producer.email = email;
+        producer.phoneNumber = phoneNumber;
+        producer.address = address;
+        producer.product = products;
+
         await producer.save();
-        res.json(producer);
+        res.status(200).json(producer);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
 };
+
 
 // Supprimer un producteur
 exports.deleteProducer = async (req, res) => {

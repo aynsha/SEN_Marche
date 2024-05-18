@@ -1,16 +1,18 @@
 const mongoose= require('mongoose');
 
 const productShema= new mongoose.Schema( {
+    imageProduct:{
+        type: String,
+        require: true
+    },
     productName : {
         type : String,
         require : true
     },
-    producerName : 
+    producer : 
         {
-        // type: mongoose.Schema.Types.ObjectId,
-        // ref: 'Producers'
-         type: String,
-         require: true
+        producerName:{type: String, require: true},
+        imageProducer:{type: String, require: true}
        },
     productType : {
         type : String,
@@ -18,7 +20,7 @@ const productShema= new mongoose.Schema( {
     },
     productPrice : {
         type : Number,  
-        // require : true,
+        require : true,
     },
 
 },

@@ -1,6 +1,9 @@
 const mongoose= require('mongoose');
 
 const producerShema= new mongoose.Schema({
+    imageProducer:{
+        type:String,
+    },
     producerName: { 
         type: String,
         require: true 
@@ -23,8 +26,10 @@ const producerShema= new mongoose.Schema({
             ville : {type : String} ,
             codePostal : {type : Number}
             } ,
-    productName : 
-                [{ product : {type : String, require: true},
+            
+    product : 
+                [{ productName : {type : String, required: true},
+                imageProduct:{ type: String, required: true},
                 quantity : {type : Number , default :1},
                 isAvailable : {type : Boolean ,default : true}
                 }]
