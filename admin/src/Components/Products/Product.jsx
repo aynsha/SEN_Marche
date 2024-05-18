@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import Upload from "../Upload";
+
 
 const Product = () => {
   const initialProductState = {
+    imageProduct: "",
     productName: "",
-    producerName :"",
-    productType : "",
-    productPrice: 0,
+    producer: {
+      producerName: "",
+      imageProducer: ""
+    },
+    productType: "",
+    productPrice: 0
   };
 
   const [product, setProduct] = useState(initialProductState);
@@ -23,7 +27,6 @@ const Product = () => {
   const fetchProducts = async () => {
     try {
       const response = await axios.get("http://localhost:5000/api/all-products");
-      console.log(response.data);
       setProducts(response.data);
     } catch (error) {
       console.error("Erreur lors de la récupération des produits:", error);
@@ -36,21 +39,51 @@ const Product = () => {
     setProduct({ ...product, [name]: value });
   };
 
+  const handleProducerChange = (e) => {
+    const { name, value } = e.target;
+    setProduct({
+        ...product,
+        producer: {
+            ...product.producer,
+            [name]: value
+        }
+    });
+  };
+
+  const handleImageChange = (e, field) => {
+    const file = e.target.files[0];
+    // Extraire juste le nom du fichier sans le chemin
+    const fileName = file.name;
+    setProduct({ ...product, [field]: fileName });
+};
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      if (!editing) {
-        await axios.post("http://localhost:5000/api/new-product", product);
-      } else {
-        await axios.put(`http://localhost:5000/api/update-product/${productId}`, product);
-        setEditing(false);
-        setProductId(null);
-      }
-      setProduct(initialProductState);
+      // const formData = new FormData();
+      // formData.append("imageProduct", product.imageProduct);
+      // formData.append("productName", product.productName);
+      // formData.append("producerName", product.producer.producerName);
+      // formData.append("imageProducer", product.producer.imageProducer);
+      // formData.append("productType", product.productType);
+      // formData.append("productPrice", product.productPrice);
+    
+    //const response = await axios.post("http://localhost:5000/api/new-product", product)
+      const apiUrl = editing
+      ? `http://localhost:5000/api/update-product/${productId}`
+      : "http://localhost:5000/api/new-product";
+    const response=
+    editing
+    ? await axios.put(apiUrl, product)
+    : await axios.post(apiUrl, product);
+      
+      setEditing(false);
+      setProductId(null);
+      setProduct(response.data);
       fetchProducts();
     } catch (error) {
-      console.error("Erreur lors de l'ajout/modification du produit:", error);
+      console.log("Erreur lors de l'ajout/modification du produit:", error);
       setError("Erreur lors de l'ajout/modification du produit");
     }
   };
@@ -71,20 +104,23 @@ const Product = () => {
       setError("Erreur lors de la suppression du produit");
     }
   };
-    console.log(products);
 
-  //   const handleClick=()=>{
-  //     localStorage.removeItem("token")
-  //     window.location = "/upload"
-  // }
   return (
     <div>
-      <h2>Produits</h2>
+      
+      <div className=" mt-[5%] ml-[30%] w-[70%] ">
+      <h2 className="text-[25px] font-semibold">Produits</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
       <div>
         <h3>{editing ? "Modifier le produit" : "Ajouter un produit"}</h3>
         <form onSubmit={handleSubmit}>
-          <Upload/>
+          <input
+            type="file"
+            name="imageProduct"
+            onChange={(e) => handleImageChange(e, "imageProduct")}
+            accept="image/*"
+            required={!editing}
+          />
           <input
             type="text"
             name="productName"
@@ -96,10 +132,17 @@ const Product = () => {
           <input
             type="text"
             name="producerName"
-            value={product.producerName}
-            onChange={handleChange}
+            value={product.producer.producerName}
+            onChange={(e) => handleProducerChange(e, "producerName")}
             placeholder="Producteur"
             required
+          />
+          <input
+            type="file"
+            name="imageProducer"
+            onChange={(e) => handleImageChange(e, "imageProducer")}
+            accept="image/*"
+            required={!editing}
           />
           <input
             type="text"
@@ -117,33 +160,37 @@ const Product = () => {
             placeholder="Prix"
             required
           />
-          {/* <textarea
-            name="description"
-            value=''
-            onChange={handleChange}
-            placeholder="Description"
-            required
-          /> */}
           <button type="submit">{editing ? "Modifier" : "Ajouter"}</button>
         </form>
       </div>
-      <div>
+      
         <h3>Liste des produits</h3>
-        <ul>
+        <div  >
+        <ul  style={{ width:'97%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',gridGap: '10px' }}  >
           {products.map((prod) => (
             <li key={prod._id}>
-              {prod.productName} - {prod.productPrice} €
-              {prod.productType}-{ prod.producerName}  
-              
+              <img src={prod.imageProduct} alt="Product" style={{ width:'30%', height:'auto' }} />
+              <p>Nom: {prod.productName}</p>
+              <p>Prix: {prod.productPrice} €</p>
+              <p>Type: {prod.productType}</p>
+              {prod.producer && (
+                <ul>
+                  <li>
+                    <p>Nom du producteur: {prod.producer.producerName}</p>
+                    <img src={prod.producer.imageProducer} alt="Producer"  style={{ width:'30%', height:'auto' }}  />
+                  </li>
+                </ul>
+              )}
               <button onClick={() => editProduct(prod._id)}>Modifier</button>
               <button onClick={() => deleteProduct(prod._id)}>Supprimer</button>
             </li>
           ))}
         </ul>
       </div>
-      {/* <button onClick={handleClick} >Upload img</button> */}
+      </div>
     </div>
   );
 };
 
 export default Product;
+

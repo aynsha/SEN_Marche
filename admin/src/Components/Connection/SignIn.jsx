@@ -2,6 +2,9 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import axios from "axios";
+import Navbar from '../../Layouts/Navbar';
+import breadcrumb from '../../Assets/Imgs/Breadcrumbs.png';
+import { Icon } from '@iconify/react';
 
 const SignIn = () => {
     
@@ -68,50 +71,70 @@ const SignIn = () => {
         }
     };
     return (
-        <div className='layout-signin'>
-            <div className='form-signin'>
+        <div>
+        <Navbar/>
+        <div className='mt-[5%] '>
+         <img src={breadcrumb} alt="" className=''/>
+         <div className='-mt-[4%] mb-[5%] ml-[5%] flex  '>
+         <Link to='/' className='flex '>
+         <Icon icon="material-symbols-light:home-outline"  style={{color: 'white', fontSize:'25px'}} />
+         <Icon icon="solar:alt-arrow-left-outline"  style={{color: 'white', fontSize:'25px'}} />
+         </Link>
+         <Link to='' className='flex '>
+         <p className='text-[12px] text-white mt-[4%]'>Compte</p>
+         <Icon icon="solar:alt-arrow-left-outline"  style={{color: 'white', fontSize:'25px'}} />
+         </Link>
+         <Link to='/connexion'>
+         <h2 className='text-[12px]  mt-[4%] text-primary'>Se Connecter</h2>
+         </Link>
+         </div>
+       </div>
+        <div className='layout-signin'> 
+            <div className='form-signin mt-[10%] w-[35%] m-[7%] ml-[33%]  p-[3%] bg-white shadow-lg shadow-gris rounded-md border-2 border-[#80808039] '>
+            <h2 className=' text-center  text-[23px] font-semibold ' >Se Connecter</h2>
                 <form onSubmit={handleSubmit}>
                     <div className='parent-form-input'>
-                        <label htmlFor='email'>Email:</label>
                         <input
-                            className='input'
+                            className='border border-gris w-[100%] rounded-sm text-[12px] p-2 mb-5'
                             type='email'
                             name='email'
                             id='email'
                             value={data.email}
                             onChange={handleChange}
                             required
+                            placeholder='Email'
                         />
                     </div>
                     <div className='parent-form-input'>
-                        <label htmlFor='password'>Mot de passe:</label>
                         <input
-                            className='input'
+                            className='border border-gris w-[100%] rounded-sm text-[12px] p-2 mb-5'
                             type='password'
                             name='password'
                             id='password'
                             value={data.password}
                             onChange={handleChange}
+                            placeholder='Mot de Passe'
                             required
                         />
                     </div>
-                    <button onClick={handleSubmit} className='btn-form-connection' id='btn-signin'>
+                    <button onClick={handleSubmit} className='btn-form-connection w-[100%] bg-primary rounded-full text-[15px] text-white p-2' id='btn-signin'>
                         Se connecter
                     </button>
                 </form>
 
                 <div className='container-right-signin'>
                     <div className='card-title-signup sign-in'>
-                        <p id='new-user'>Vous N’avez pas de compte ? </p>
-                        <Link className='btn-form-connection' to='/signup'>
+                       {/* <p id='new-user' className='text-[14px] m-2'>Vous N’avez pas de compte ? </p>
+                         <Link className='btn-form-connection' to='/signup'>
                             Inscrivez-vous
-                        </Link>
+                        </Link> */}
                     </div>
                 </div>
             </div>
             <div>
-                {error && <h1 style={{ color: 'red' }}>{error.response.data.message}</h1>}
+                {error && <p style={{ color: "#E2B633" }}>{error.response.data.message}</p>}
             </div>
+        </div>
         </div>
     );
 }

@@ -5,13 +5,20 @@ import ProtectedRoute from '../Services/ProtectedRoute';
 import SignIn from '../Components/Connection/SignIn';
 import Producer from '../Components/Producers/Producer';
 import Upload from '../Components/Upload.jsx';
+import './App.css';
+import Product from '../Components/Products/Product.jsx';
 
 const token= localStorage.getItem("token");
 const router = createBrowserRouter([
   //Espace pour créer nos routes
+
   {path: '/producers',  element: 
   <Producer />
 },
+  {path: '/products',  element: 
+  <Product />
+},
+  
   {path: '/upload',  element: 
   <Upload />
 },

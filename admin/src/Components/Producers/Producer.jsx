@@ -4,6 +4,7 @@ import axios from "axios";
 const Producer = () => {
   const [producers, setProducers] = useState([]);
   const [producer, setProducer] = useState({
+    imageProducer:"",
     producerName: "",
     email: "",
     password: "",
@@ -13,7 +14,7 @@ const Producer = () => {
       ville: "", 
       codePostal: 0
     },
-    productName: [{ product: "", quantity: 0, isAvailable: false}]
+    product: [{ productName: "", imageProduct:"", quantity: 0, isAvailable: false}]
   });
   const [editing, setEditing] = useState();
   const [producerId, setProducerId] = useState(null);
@@ -32,19 +33,41 @@ const Producer = () => {
       setError("Error fetching producers");
     }
   };
+  
+  // const handleProducerChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setProducer({
+  //       ...producer,
+  //       product: {
+  //           ...producer.product,
+  //           [name]: value
+  //       }
+  //   });
+  // };
+
+  const handleImageChange = (e, field) => {
+    const file = e.target.files[0];
+    // Extraire juste le nom du fichier sans le chemin
+    const fileName = file.name;
+    setProducer({ ...producer, [field]: fileName });
+};
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      if (editing) {
-        await axios.put(`http://localhost:5000/api/update-producer/${producerId}`, producer);
-      } else {
-        await axios.post("http://localhost:5000/api/new-producer", producer);
-      }
+      const apiUrl = editing
+      ? `http://localhost:5000/api/update-producer/${producerId}`
+      : "http://localhost:5000/api/new-producer";
+
+    editing
+    ? await axios.put(apiUrl, producer)
+    : await axios.post(apiUrl, producer);
       fetchProducers();
       setEditing(false);
       setProducerId(null);
+      //setProducer(response.data);
       setProducer({
+        imageProducer:"",
         producerName: "",
         email: "",
         password: "",
@@ -54,8 +77,8 @@ const Producer = () => {
           ville: "",
           codePostal: 0
         },
-        productName: [{ product: "", quantity: 0, isAvailable: false}]
-      });
+        product: [{ productName: "", imageProduct:"", quantity: 0, isAvailable: false}]
+       });
     } catch (error) {
       console.error("Erreur lors de la soumission du producteur:", error);
       setError("Erreur lors de la soumission du producteur");
@@ -66,13 +89,15 @@ const Producer = () => {
     const editedProducer = producers.find((prod) => prod._id === id);
     setEditing(true);
     setProducerId(id);
+    //setProducer(editedProducer);
     setProducer({
+      imageProducer: editedProducer.imageProducer,
       producerName: editedProducer.producerName,
       email: editedProducer.email,
       password: editedProducer.password,
       phoneNumber: editedProducer.phoneNumber,
       address: { ...editedProducer.address },
-      productName: [...editedProducer.productName]
+      product: [...editedProducer.product]
     });
   };
 
@@ -89,48 +114,60 @@ const Producer = () => {
 
   const handleChange = (e, index) => {
     const { name, value, checked } = e.target;
+
     if (name === "isAvailable") {
-      const updatedProductName = [...producer.productName];
-      updatedProductName[index][name] = checked;
-      setProducer({ ...producer, productName: updatedProductName });
-    } else if (name === "product" || name === "quantity") {
-      const updatedProductName = [...producer.productName];
-      updatedProductName[index][name] = value;
-      setProducer({ ...producer, productName: updatedProductName });
+        const updatedProduct = [...producer.product];
+        updatedProduct[index][name] = checked;
+        setProducer({ ...producer, product: updatedProduct });
+    } else if (name === "productName" || name === "quantity"  ) {
+        const updatedProduct = [...producer.product];
+        updatedProduct[index][name] = value;  
+        setProducer({ ...producer, product: updatedProduct });
     } else if (name.startsWith("address.")) {
-      const addressField = name.split(".")[1];
-      setProducer({
-        ...producer,
-        address: {
-          ...producer.address,
-          [addressField]: value
-        }
-      });
+        const addressField = name.split(".")[1];
+        setProducer({
+            ...producer,
+            address: {
+                ...producer.address,
+                [addressField]: value
+            }
+        });
     } else {
-      setProducer({ ...producer, [name]: value });
+        setProducer({ ...producer, [name]: value });
     }
-  };
-  
+};
+
 
   const addProduct = () => {
     setProducer({
       ...producer,
-      productName: [...producer.productName, { product: "", quantity: 0, isAvailable: false }]
+      product: [
+        ...producer.product,
+        { productName: "", imageProduct: "", quantity: 0, isAvailable: false }
+      ]
     });
-  };
+};
 
-  const removeProduct = (index) => {
-    const updatedProductName = producer.productName.filter((item, i) => i !== index);
-    setProducer({ ...producer, productName: updatedProductName });
-  };
+const removeProduct = (index) => {
+    const updatedProduct = [...producer.product];
+    updatedProduct.splice(index, 1);
+    setProducer({ ...producer, product: updatedProduct });
+};
 
   return (
-    <div>
+    <div className=" mt-[5%] ml-[30%] w-[70%] ">
       <h2>Producers</h2>
       {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
+      <div >
         <h3>{editing ? "Edit Producer" : "Add Producer"}</h3>
         <form onSubmit={handleSubmit}>
+        <input
+            type="file"
+            name="imageProducer"
+            onChange={(e) => handleImageChange(e, "imageProducer")}
+            accept="image/*"
+            required={!editing}
+          />
         <input
     type="text"
     name="producerName"
@@ -184,15 +221,22 @@ const Producer = () => {
     placeholder="Postal Code"
   />
   {/* Available Products */}
-  {producer.productName.map((product, index) => (
-    <div key={index}>
+  {producer.product.map((product, index) => (
+    <div key={index} >
       <input
         type="text"
-        name="product"
-        value={product.product}
+        name="productName"
+        value={product.productName}
         onChange={(e) => handleChange(e, index)}
         placeholder="Product Name"
       />
+      <input
+            type="file"
+            name="imageProduct"
+            onChange={(e) => handleImageChange(e, "imageProduct")}
+            accept="image/*"
+            required={!editing}
+          />
       <input
         type="text"
         name="quantity"
@@ -210,22 +254,24 @@ const Producer = () => {
     </div>
   ))}
   <button onClick={addProduct}>Add Product</button>
-          <button type="submit">{editing ? "Edit" : "Add"}</button>
+  <button type="submit">{editing ? "Edit" : "Add"}</button>
         </form>
       </div>
       <div>
         <h3>List of Producers</h3>
-        <ul>
+        <ul style={{ width:'97%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',gridGap: '10px' }}>
           {producers.map((prod) => (
             <li key={prod._id}>
+              <img src={prod.imageProducer} alt="Producer" style={{ width:'20%', height:'auto' }} />
              <p>Name: {prod.producerName}</p>
-      <p>Email: {prod.email}</p>
-      <p>Phone Number: {prod.phoneNumber}</p>
-      <p>Address: {prod.address.addressRue}, {prod.address.ville}, {prod.address.codePostal}</p>
+            <p>Email: {prod.email}</p>
+            <p>Phone Number: {prod.phoneNumber}</p>
+            <p>Address: {prod.address.addressRue}, {prod.address.ville}, {prod.address.codePostal}</p>
       <ul>
-        {prod.productName.map((product, index) => (
+        {prod.product.map((product, index) => (
           <li key={index}>
-            <p>Product Name: {product.product}</p>
+            <p>Product Name: {product.productName}</p>
+            <img src={product.imageProduct} alt="Product"  style={{ width:'30%', height:'auto' }}  />
             <p>Product Quantity: {product.quantity}</p>
             <p>Available Product: {product.isAvailable ? "Yes" : "No"}</p>
           </li>
