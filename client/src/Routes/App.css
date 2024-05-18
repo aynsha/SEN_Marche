@@ -8,6 +8,11 @@
   box-sizing: border-box;
   
 }
+section{
+  background-image: url(../Layouts/Assets/Imgs/bg3.png);
+  background-position: center;
+  background-size: cover ;
+}
 :root {
     
     --black: #000;

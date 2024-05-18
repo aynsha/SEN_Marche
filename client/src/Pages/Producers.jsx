@@ -8,11 +8,16 @@ import {Link} from 'react-router-dom';
 import product1 from '../Layouts/Assets/Imgs/Product Image.png';
 import product2 from '../Layouts/Assets/Imgs/Product Image1.png';
 import rating from '../Layouts/Assets/Imgs/Rating.png';
+import breadcrumb from '../Layouts/Assets/Imgs/Breadcrumbs.png';
+import Navbar from '../Layouts/Navbar/Navbar';
+import Footer from '../Layouts/Footer';
+import pagination from '../Layouts/Assets/Imgs/Pagination.png';
 import { useDispatch } from 'react-redux';
 import { panierAction } from '../store/PanierReducer';
 
+
 const Producer = () => {
-  const dispatch= useDispatch();
+    const dispatch= useDispatch();
     const [listProducer, setListProducer]= useState([]);
   const [error, setError]= useState(null);
   
@@ -32,19 +37,23 @@ const Producer = () => {
 
   return (
     <div>
-      <section className='h-[200vh]'>
-          <div className='mt-[10%] pl-[15%] flex '>
-              <h2 className='text-[25px] font-semibold ' >Nos Producteurs</h2>
-              <Link to='/producers' className='pl-[55%]'>
-              <button className=' pt-2 flex text-primary font-medium'>
-                View all
-              <Icon icon="formkit:arrowright"  style={{color: '#00893A', marginTop: '4px'}} />
-              </button>
-              </Link>
-            </div>
-            <img src={bg2} alt="" className='mt-[20%] ' />
+        <Navbar/>
+      <section className='h-[600vh]'>
+      <div >
+         <img src={breadcrumb} alt="" className='mt'/>
+         <div className='-mt-[4%] mb-[5%] ml-[5%] flex  '>
+         <Link to='/' className='flex '>
+         <Icon icon="material-symbols-light:home-outline"  style={{color: 'white', fontSize:'25px'}} />
+         <Icon icon="solar:alt-arrow-left-outline"  style={{color: 'white', fontSize:'25px'}} />
+         </Link>
+         <Link to=''>
+         <p className='text-[14px]  mt-[2%] text-primary'>Nos producteurs</p>
+         </Link>
+         </div>
+       </div>
+            <img src={bg2} alt="" className='mt-[30%] ' />
             <div className=' block -mt-[45%] ml-[15%]  '>
-              {listProducer.slice(0,2).map(producer=>(
+              {listProducer.map(producer=>(
                  <div className='w-[85%]  bg-white p-2 rounded-md border-2 border-[#80808039] mb-[5%] flex shadow-lg shadow-gris'>
                   <div className='m-[2%] border border-[#80808039] w-[50%] rounded-md '>
                     <img src={producer.imageProducer} alt="" className='w-[100%] rounded-t-md  '/>
@@ -57,14 +66,14 @@ const Producer = () => {
                         <button className="p-2 pl-6 pr-6 bg-primary text-white text-[13px] m-3 ml-[25%] rounded-2xl flex">Découvrir<Icon icon="formkit:arrowright"  style={{color: 'white', marginTop: '4px'}} /></button>
                     </Link>
                   </div>
-                  {producer.product.slice(0,3).map((product, index)=>(
+                  {producer.product.map((product, index)=>(
                     <div>
-                    <div key={index} className='border h-[250px] border-gris p-[1%] m-[3%] mt-[15%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover'>
+                    <div key={index} className='border h-[250px]  border-gris p-[1%] m-[3%] mt-[15%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover'>
                     <img src={product.imageProduct} alt="" className='w-[100%] gap-[20px]  ' />
                       <h3 className='text-[13px] ml-[10px] text-hover'>{product.productName}</h3>
                     <p className='flex gap-10 ml-[16px] text-[14px] font-medium'>2000Fcf
-                    <Icon icon="solar:cart-3-outline"   className='text-[30px]  rounded-[80%] border cursor-pointer border-gris p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white' 
-                    onClick={() => handleAddToCart(product)}/>
+                    <Icon icon="solar:cart-3-outline"   className='text-[30px]  rounded-[80%] border cursor-pointer border-gris p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white'
+                    onClick={() => handleAddToCart(product)} />
                     </p>
                     <img src={rating} alt="" className='w-[70px] ml-[14px] '/> 
                     </div>
@@ -77,9 +86,11 @@ const Producer = () => {
                   
                  </div>
               ))}
-              {/* <img src={bg3} alt="" className='mt-[50%] w-[100%] ' />  */}
+              {/* <img src={bg3} alt="" className='-mt-[45%] w-[99%]  ' />  */}
             </div>
+            <img src={pagination} alt="" className='  w-[24%] ml-[37%] ' />
           </section>
+          <Footer/>
     </div>
   )
 }

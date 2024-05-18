@@ -17,18 +17,20 @@ const SecondNavbar = () => {
                     onMouseEnter={() => setShowSubcategories('legumes')}
                     onMouseLeave={() => setShowSubcategories(null)}
                 >
-                    <Link to="/prodc_fruitLegume">
+                    <Link to="/producers">
                         <img src={legumes} alt="" className=' w-9 ml-12' />
                         <p className=' text-xs ml-8 text-white'>Fruit&Légumes</p>
                     </Link>
                     {showSubcategories=== 'legumes' && (
                         <div className='absolute top-full w-[800%] ml-[30%] p-4 h-[815%] z-50 border-t-4 border-secondary   left-0 right-0 bg-soft-primary'>
+                            <h3 className='text-[16px] font-semibold '>Fruits</h3>
                             <Link to="/cat_fruitLegume">
-                              <p className=' hover:decoration-solid hover:text-[15px]'>Pomme</p>
+                              <p className=' hover:decoration-solid hover:text-[15px] ml-4'>Pomme</p>
                               </Link>
-                            <Link to="/cat_fruitLegume"><p>Mangue</p></Link>
-                            <Link to=""><p>Joux</p></Link>
-                            <Link to=""><p>Obergine</p></Link>
+                            <Link to="/cat_fruitLegume"><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Mangue</p></Link>
+                            <h3 className='text-[16px] font-semibold '>Légumes</h3>
+                            <Link to=""><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Joux</p></Link>
+                            <Link to=""><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Obergine</p></Link>
                             
                         </div>
                     )}

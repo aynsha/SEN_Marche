@@ -1,16 +1,18 @@
 import React from 'react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import featured from '../Layouts/Assets/Imgs/Featured.png'
+import breadcrumb from '../Layouts/Assets/Imgs/Breadcrumbs.png';
 import {Icon} from "@iconify/react";
 import { Link } from 'react-router-dom';
 import bg1 from '../Layouts/Assets/Imgs/bg1.png';
 import rating from '../Layouts/Assets/Imgs/Rating.png';
 import { useDispatch } from 'react-redux';
 import { panierAction } from '../store/PanierReducer';
+import Navbar from '../Layouts/Navbar/Navbar';
+import Footer from '../Layouts/Footer';
+import pagination from '../Layouts/Assets/Imgs/Pagination.png';
 
-
-const Product = () => {
+const Products = () => {
 const dispatch= useDispatch();
 
     const [product, setProduct]= useState([]);
@@ -34,19 +36,25 @@ const dispatch= useDispatch();
   }
 
   return (
-    <div>
-      <section className=''>
-            <img src={featured} alt="" className=' w-[78%] ml-[12%] ' />
-          </section>
-          <section className=" bg-bg-soft h-[220vh] -mt-32 justify-center  " >
-            <div className='pt-[15%] pl-[15%] flex '>
-              <h2 className='text-[25px] font-semibold ' >Présentation de nos produits</h2>
-              <Link to="/products" className='pl-[43%]'>
-              <button className=' pt-2 flex text-primary font-medium'>View all<Icon icon="formkit:arrowright"  style={{color: '#00893A', marginTop: '4px'}} /></button>
-            </Link>
-            </div>
+    <div className=' h-[370vh] '>
+        <Navbar/>
+         <section>
+         <div >
+         <img src={breadcrumb} alt="" className='mt'/>
+         <div className='-mt-[4%] mb-[5%] ml-[5%] flex  '>
+         <Link to='/' className='flex '>
+         <Icon icon="material-symbols-light:home-outline"  style={{color: 'white', fontSize:'25px'}} />
+         <Icon icon="solar:alt-arrow-left-outline"  style={{color: 'white', fontSize:'25px'}} />
+         </Link>
+         <Link to='/inscription'>
+         <p className='text-[14px]  mt-[2%] text-primary'>Nos produits</p>
+         </Link>
+         </div>
+       </div>
+         </section>
+          <section className="  pt-[4%] justify-center  " >
               <div className=' w-[70%] shadow-lg shadow-gris grid gap-[0px] grid-cols-4 justify-center bg-white ml-[15%]  mt-[5%] rounded-md border-2 border-[#80808039] '>
-                {product.slice(0,8).map(product=>(
+                {product.map(product=>(
                 <div key={product.productName} className='border border-gris p-[5%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover '>
                  <img src={product.imageProduct} alt=""/>
                 <h3 className='flex text-[14px] font-semibold w-[100%] gap-[8px] mt-[25px]'>
@@ -65,9 +73,11 @@ const dispatch= useDispatch();
                 ))}
               </div>
               <img src={bg1} alt=""  className='w-[10%]  '/>
+              <img src={pagination} alt="" className='  w-[24%] ml-[37%] ' />
           </section>
+          <Footer/>
     </div>
   )
 }
 
-export default Product
+export default Products

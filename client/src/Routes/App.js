@@ -4,14 +4,19 @@ import Home from '../Pages/Home';
 import './App.css';
 import SignUp from '../Components/Connection/SignUp'
 import SignIn from '../Components/Connection/SignIn';
-import FruitLegume from '../Components/FruitLegume';
-import CatFruiLegum from '../Components/CatFruiLegum';
+import FruitLegume from '../Pages/Categorie/FruitLegume.jsx';
+import CatFruiLegum from '../Pages/SousCategories/CatFruiLegum.jsx';
 import Panier from '../Components/Panier';
+import Products from '../Pages/Products.jsx';
+import Producers from '../Pages/Producers.jsx';
 
 const router = createBrowserRouter([
   //Espace pour créer nos routes
   {path: '/',  element: <Home />},
+  {path: '/products',  element: <Products />},
+  {path: '/producers',  element: <Producers />},
   {path:'/inscription', element: <SignUp />},
+  {path:'/connexion', element: <SignIn />},
   {path:'/connexion', element: <SignIn />},
   {path:'/prodc_fruitLegume', element: <FruitLegume />},
   {path:'/cat_fruitLegume', element: <CatFruiLegum />},

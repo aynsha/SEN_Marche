@@ -48,9 +48,9 @@ function Home() {
                 </Link>
             </div>
           </section>
-          <section className='w-[75%] ml-[15%] mb-[10%] mt-[5%] '>
+          <div className='w-[75%] ml-[15%] mb-[10%] mt-[5%] '>
             <img src={companyLogo} alt=""  />
-          </section>
+          </div>
           <Footer/>
         </div>
     )
