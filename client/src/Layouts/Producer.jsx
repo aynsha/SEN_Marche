@@ -77,7 +77,7 @@ const Producer = () => {
                   
                  </div>
               ))}
-              {/* <img src={bg3} alt="" className='mt-[50%] w-[100%] ' />  */}
+              <img src={bg3} alt="" className='mt-[50%] w-[100%] ' /> 
             </div>
           </section>
     </div>

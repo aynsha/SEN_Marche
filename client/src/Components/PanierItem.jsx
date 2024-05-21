@@ -2,8 +2,11 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Icon } from '@iconify/react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { panierAction } from '../store/PanierReducer';
 
-const PanierItem = ({ producer, product }) => {
+const PanierItem = ({ producer, item }) => {
+  const dispatch= useDispatch();
     const [productData, setProductData] = useState([]);
     const [error, setError] = useState(null);
 
@@ -15,6 +18,10 @@ const PanierItem = ({ producer, product }) => {
         };
         fetchData();
     }, []);
+
+    const handleRemoveItem = () => {
+      dispatch(panierAction.removeItemCart(item._id));
+    };
 
     return (
       <div className="w-[100%] flex">
@@ -77,6 +84,10 @@ const PanierItem = ({ producer, product }) => {
                   </td>
                   <td className="text-[15px] p-5 font-medium">
                     {product.productPrice * product.productQuantity}Fcf
+                  </td>
+                  <td className="text-[15px] p-5 font-medium">
+                  <Icon icon="typcn:delete-outline"  style={{color: '#666666', fontSize: '25px'}} 
+                  onClick={handleRemoveItem}/>
                   </td>
                 </tr>
               ))}

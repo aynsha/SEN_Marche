@@ -11,22 +11,37 @@ import { panierAction } from '../store/PanierReducer';
 import Navbar from '../Layouts/Navbar/Navbar';
 import Footer from '../Layouts/Footer';
 import pagination from '../Layouts/Assets/Imgs/Pagination.png';
+import { useLocation } from 'react-router-dom';
 
 const Products = () => {
 const dispatch= useDispatch();
 
     const [product, setProduct]= useState([]);
   const [error, setError]= useState(null);
-  
+  const location = useLocation();
   // Fetch data from the API
-  useEffect(()=>{
-    function fetchData(){
-      axios.get('http://localhost:5000/api/all-products')
-      .then(response=> {setProduct(response.data);})
-      .catch(err => setError(err));
-    };
-  fetchData();
-  }, []);
+  const query = new URLSearchParams(location.search);
+    const productType = query.get('productType');
+    const productName= query.get('productName')
+
+    useEffect(() => {
+        function fetchData() {
+            axios.get('http://localhost:5000/api/all-products')
+            .then(response => {
+              let filteredProducts = response.data;
+              
+              if (productType) {
+                  filteredProducts = filteredProducts.filter(product => product.productType.toLowerCase() === productType.toLowerCase());
+              }
+              if (productName) {
+                filteredProducts = filteredProducts.filter(product => product.productName.toLowerCase().startsWith(productName.toLowerCase()));
+            }
+              setProduct(filteredProducts);
+                })
+                .catch(err => setError(err));
+        }
+        fetchData();
+    }, [productType, productName]);
 
   // Utilisez une fonction pour récupérer l'image correspondante à un produit
   
@@ -36,7 +51,7 @@ const dispatch= useDispatch();
   }
 
   return (
-    <div className=' h-[370vh] '>
+    <div className=' h-[395vh] '>
         <Navbar/>
          <section>
          <div >
@@ -55,7 +70,7 @@ const dispatch= useDispatch();
           <section className="  pt-[4%] justify-center  " >
               <div className=' w-[70%] shadow-lg shadow-gris grid gap-[0px] grid-cols-4 justify-center bg-white ml-[15%]  mt-[5%] rounded-md border-2 border-[#80808039] '>
                 {product.map(product=>(
-                <div key={product.productName} className='border border-gris p-[5%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover '>
+                <div key={product._id} className='border border-gris p-[5%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover '>
                  <img src={product.imageProduct} alt=""/>
                 <h3 className='flex text-[14px] font-semibold w-[100%] gap-[8px] mt-[25px]'>
                 <Icon icon="system-uicons:location"  style={{color: '#2C742F',fontSize: '29px'}} />
@@ -73,7 +88,7 @@ const dispatch= useDispatch();
                 ))}
               </div>
               <img src={bg1} alt=""  className='w-[10%]  '/>
-              <img src={pagination} alt="" className='  w-[24%] ml-[37%] ' />
+              <img src={pagination} alt="" className='  w-[24%] ml-[37%] mb-10 ' />
           </section>
           <Footer/>
     </div>

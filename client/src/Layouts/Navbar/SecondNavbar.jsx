@@ -1,13 +1,25 @@
 import React from 'react';
-import  { useState } from "react";
+import  { useState, useEffect } from "react";
 import { Link } from 'react-router-dom';
 import legumes from '../Assets/Imgs/legume.png';
 import charcuterie from '../Assets/Imgs/charcuteries.png';
 import epicerie from '../Assets/Imgs/epices.png';
 import poisson from '../Assets/Imgs/poisson.png';
+import axios from 'axios';
 
 const SecondNavbar = () => {
    const [showSubcategories, setShowSubcategories] = useState(null);
+   const [product, setProduct]= useState([]);
+   const [error, setError]= useState(null); 
+   // Fetch data from the API
+  useEffect(()=>{
+    function fetchData(){
+      axios.get('http://localhost:5000/api/all-products')
+      .then(response=> {setProduct(response.data);})
+      .catch(err => setError(err));
+    };
+  fetchData();
+  }, []);
     
   return (
     <div>
@@ -23,14 +35,16 @@ const SecondNavbar = () => {
                     </Link>
                     {showSubcategories=== 'legumes' && (
                         <div className='absolute top-full w-[800%] ml-[30%] p-4 h-[815%] z-50 border-t-4 border-secondary   left-0 right-0 bg-soft-primary'>
-                            <h3 className='text-[16px] font-semibold '>Fruits</h3>
-                            <Link to="/cat_fruitLegume">
+                            <Link to='/products?productType=Fruits'><h3 className='text-[16px] font-semibold '>Fruits</h3></Link>
+                            <Link to="/products?productName=Pom">
                               <p className=' hover:decoration-solid hover:text-[15px] ml-4'>Pomme</p>
                               </Link>
-                            <Link to="/cat_fruitLegume"><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Mangue</p></Link>
+                            <Link to="/products?productName=Mangue"><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Mangue</p></Link>
+                            <Link to='/products?productType=Légumes'>
                             <h3 className='text-[16px] font-semibold '>Légumes</h3>
-                            <Link to=""><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Joux</p></Link>
-                            <Link to=""><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Obergine</p></Link>
+                            </Link>
+                            <Link to="/products?productName=joux"><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Joux</p></Link>
+                            <Link to="/products?productName=obergine"><p className=' hover:decoration-solid hover:text-[15px] ml-4'>Obergine</p></Link>
                             
                         </div>
                     )}

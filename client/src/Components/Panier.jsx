@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const Panier = () => {
   const items= useSelector(state=> state.Panier.items);
   const groupedItems = items.reduce((acc, item) => {
+    
     if (!acc[item.producerName]) {
         acc[item.producerName] = {
             producerName: item.producerName,
@@ -29,7 +30,7 @@ const producers = Object.values(groupedItems);
         <div className=' w-[80%] p-4 block  bottom-0'>
           <h1 className='text-[30px] font-semibold text-center p-[3%] mb-[5%] '>Panier</h1>
             {producers.map((producer, index)=>(
-                <PanierItem key={index} producer={producer} />
+                <PanierItem key={index} producer={producer}  />
             ))}
             
         </div>

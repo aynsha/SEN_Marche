@@ -1,14 +1,21 @@
 import React from 'react';
-
+import { Icon } from '@iconify/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { panierAction } from '../store/PanierReducer';
 
 
 const PopUpItem = ({item}) => {
+  const dispatch= useDispatch();
+
     const [product, setProduct]= useState([]);
   const [error, setError]= useState(null);
     
-      
+  const handleRemoveItem=()=>{
+    dispatch(panierAction.removeItemCart(item._id))
+  } 
+
      
       useEffect(()=>{
         function fetchData(){
@@ -25,7 +32,7 @@ const PopUpItem = ({item}) => {
         <h3 className=' text-[10px] font-semibold w-[100%] gap-[8px] mt-[20px] '>
         {item.producerName}
         </h3> 
-        <img src={item.imageProduct} alt="" className='w-[25%]'/>
+        <img src={item.imageProduct} alt="" className='w-[20%]'/>
     </div>
     <div className='block -ml-[30%]'>
         <p className='text-[13px] mt-[30%] text-hover'>{item.productName}</p> 
@@ -38,6 +45,10 @@ const PopUpItem = ({item}) => {
     </div>
     <div className='block mt-[14%] -ml-[5%] text-[14px] font-medium '>
         {item.productPrice * item.productQuantity}
+    </div>
+    <div className='flex mt-[5%] p-3 text-[14px] font-medium '>
+    <Icon icon="typcn:delete-outline" style={{color: '#666666', fontSize: '25px'}} 
+    onClick={handleRemoveItem}/>
     </div>
     </div>
   )
