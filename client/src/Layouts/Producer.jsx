@@ -32,7 +32,7 @@ const Producer = () => {
 
   return (
     <div>
-      <section className='h-[200vh]'>
+      <section className='h-auto'>
           <div className='mt-[10%] pl-[15%] flex '>
               <h2 className='text-[25px] font-semibold ' >Nos Producteurs</h2>
               <Link to='/producers' className='pl-[55%]'>
@@ -43,6 +43,7 @@ const Producer = () => {
               </Link>
             </div>
             <img src={bg2} alt="" className='mt-[20%] ' />
+            {/* <img src={bg3} alt="" className=' w-[60%] absolute mt-10 ml-[5%] ' />  */}
             <div className=' block -mt-[45%] ml-[15%]  '>
               {listProducer.slice(0,2).map(producer=>(
                  <div className='w-[85%]  bg-white p-2 rounded-md border-2 border-[#80808039] mb-[5%] flex shadow-lg shadow-gris'>
@@ -59,10 +60,10 @@ const Producer = () => {
                   </div>
                   {producer.product.slice(0,3).map((product, index)=>(
                     <div>
-                    <div key={index} className='border h-[250px] border-gris p-[1%] m-[3%] mt-[15%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover'>
+                    <div key={index} className='border h-auto border-gris p-[1%] m-[3%] mt-[15%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover'>
                     <img src={product.imageProduct} alt="" className='w-[100%] gap-[20px]  ' />
                       <h3 className='text-[13px] ml-[10px] text-hover'>{product.productName}</h3>
-                    <p className='flex gap-10 ml-[16px] text-[14px] font-medium'>2000Fcf
+                    <p className='flex gap-10 ml-[16px] text-[14px] font-medium'>{product.productPrice} Fcf
                     <Icon icon="solar:cart-3-outline"   className='text-[30px]  rounded-[80%] border cursor-pointer border-gris p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white' 
                     onClick={() => handleAddToCart(product)}/>
                     </p>
@@ -77,7 +78,7 @@ const Producer = () => {
                   
                  </div>
               ))}
-              <img src={bg3} alt="" className='mt-[50%] w-[100%] ' /> 
+              
             </div>
           </section>
     </div>

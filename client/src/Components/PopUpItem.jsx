@@ -12,9 +12,17 @@ const PopUpItem = ({item}) => {
     const [product, setProduct]= useState([]);
   const [error, setError]= useState(null);
     
-  const handleRemoveItem=()=>{
-    dispatch(panierAction.removeItemCart(item._id))
-  } 
+  const handleRemoveItem = () => {
+    dispatch(panierAction.removeItemCart(item._id));
+  };
+
+  const handleIncrementBtnClick = () => {
+    dispatch(panierAction.incrementQuantity(item._id));
+  };
+
+  const handleDecrement = () => {
+    dispatch(panierAction.decrementQuantity(item._id));
+  };
 
      
       useEffect(()=>{
@@ -39,9 +47,9 @@ const PopUpItem = ({item}) => {
         <p className='flex  ml-[3px] text-[14px] font-medium '>  {item.productQuantity} X {item.productPrice}Fcf</p>
     </div>
     <div className='flex text-[16px] mt-[6%] ml-[15%] font-medium text-secondary'>
-        <span>-</span>
+        <span onClick={handleDecrement}>-</span>
         <span>{item.productQuantity} </span>
-        <span>+</span>
+        <span onClick={handleIncrementBtnClick}>+</span>
     </div>
     <div className='block mt-[14%] -ml-[5%] text-[14px] font-medium '>
         {item.productPrice * item.productQuantity}

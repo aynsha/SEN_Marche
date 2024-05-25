@@ -14,15 +14,23 @@ import pagination from '../Layouts/Assets/Imgs/Pagination.png';
 import { useLocation } from 'react-router-dom';
 
 const Products = () => {
+//Pour la Barre de recherche
+const localisation = useLocation();
+const { results } = localisation.state || { results: [] };
+
+//Pour le PAnier
 const dispatch= useDispatch();
 
     const [product, setProduct]= useState([]);
   const [error, setError]= useState(null);
   const location = useLocation();
+  
+
   // Fetch data from the API
   const query = new URLSearchParams(location.search);
     const productType = query.get('productType');
     const productName= query.get('productName')
+    const producerName= query.get('producerName');
 
     useEffect(() => {
         function fetchData() {
@@ -36,12 +44,16 @@ const dispatch= useDispatch();
               if (productName) {
                 filteredProducts = filteredProducts.filter(product => product.productName.toLowerCase().startsWith(productName.toLowerCase()));
             }
+            if (producerName) {
+              filteredProducts = filteredProducts.filter(product => product.producer.producerName.toLowerCase() === producerName.toLowerCase());
+            }
+            
               setProduct(filteredProducts);
                 })
                 .catch(err => setError(err));
         }
         fetchData();
-    }, [productType, productName]);
+    }, [productType, productName, producerName]);
 
   // Utilisez une fonction pour récupérer l'image correspondante à un produit
   
@@ -51,7 +63,7 @@ const dispatch= useDispatch();
   }
 
   return (
-    <div className=' h-[395vh] '>
+    <div className=' h-auto'>
         <Navbar/>
          <section>
          <div >
@@ -61,7 +73,7 @@ const dispatch= useDispatch();
          <Icon icon="material-symbols-light:home-outline"  style={{color: 'white', fontSize:'25px'}} />
          <Icon icon="solar:alt-arrow-left-outline"  style={{color: 'white', fontSize:'25px'}} />
          </Link>
-         <Link to='/inscription'>
+         <Link to='/'>
          <p className='text-[14px]  mt-[2%] text-primary'>Nos produits</p>
          </Link>
          </div>
@@ -71,6 +83,7 @@ const dispatch= useDispatch();
               <div className=' w-[70%] shadow-lg shadow-gris grid gap-[0px] grid-cols-4 justify-center bg-white ml-[15%]  mt-[5%] rounded-md border-2 border-[#80808039] '>
                 {product.map(product=>(
                 <div key={product._id} className='border border-gris p-[5%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover '>
+                 <Link to={`/detail_product/${product._id}`}>
                  <img src={product.imageProduct} alt=""/>
                 <h3 className='flex text-[14px] font-semibold w-[100%] gap-[8px] mt-[25px]'>
                 <Icon icon="system-uicons:location"  style={{color: '#2C742F',fontSize: '29px'}} />
@@ -78,18 +91,21 @@ const dispatch= useDispatch();
                 <img src={product.producer.imageProducer} alt=""  className='rounded-[80%] w-[30%] h-[55px]   border-2 border-secondary '/>
                 </h3>
                 <p className='text-[13px] ml-[10px] text-hover'>{product.productName}</p> 
+                </Link>
                 <p className='flex gap-20 ml-[16px] text-[14px] font-medium'>{product.productPrice}Fcf
                 <Icon icon="solar:cart-3-outline"   className='text-[35px]  rounded-[80%] border border-gris cursor-pointer p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white' 
                 onClick={() => handleAddToCart(product)}
                 />
                 </p>
                 <img src={rating} alt="" className='w-[70px] ml-[14px] ' /> 
+                
                 </div>
                 ))}
               </div>
               <img src={bg1} alt=""  className='w-[10%]  '/>
               <img src={pagination} alt="" className='  w-[24%] ml-[37%] mb-10 ' />
           </section>
+
           <Footer/>
     </div>
   )

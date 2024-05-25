@@ -9,6 +9,7 @@ const PanierItem = ({ producer, item }) => {
   const dispatch= useDispatch();
     const [productData, setProductData] = useState([]);
     const [error, setError] = useState(null);
+    let total = 0;
 
     useEffect(() => {
         function fetchData() {
@@ -19,13 +20,19 @@ const PanierItem = ({ producer, item }) => {
         fetchData();
     }, []);
 
-    const handleRemoveItem = () => {
-      dispatch(panierAction.removeItemCart(item._id));
+    const handleRemoveItem = (id) => {
+      dispatch(panierAction.removeItemCart({ _id: id }));
+    };
+    const handleIncrementBtnClick= (id)=>{
+      dispatch(panierAction.incrementQuantity({ _id: id }))
+     }
+     const handleDecrement = (id) => {
+      dispatch(panierAction.decrementQuantity({ _id: id }));
     };
 
     return (
       <div className="w-[100%] flex">
-        <div className="w-[65%] flex justify-center ml-[5%]">
+        <div className="w-[65%] flex justify-center ml-[15%]">
           <div className="-mt-[9%] flex w-[100%]">
             <img
               src={producer.imageProducer}
@@ -44,9 +51,9 @@ const PanierItem = ({ producer, item }) => {
               />
             </div>
           </div>
-          <table className="border-2 border-gris mb-[15%] mt-[5%] -ml-[24%] w-[80%]">
+          <table className="border-2  border-[#E6E6E6] mb-[15%] mt-[5%] -ml-[27%] w-[80%]">
             <thead>
-              <tr className="border-2 border-gris">
+              <tr className="border-2 border-[#E6E6E6]">
                 <th className="text-justify text-[15px] text-main-gray p-3">
                   Product
                 </th>
@@ -62,8 +69,9 @@ const PanierItem = ({ producer, item }) => {
               </tr>
             </thead>
             <tbody>
-              {producer.products.map((product, index) => (
-                <tr key={index}>
+              {producer.products.map((product, index) => {
+                total += product.productPrice * product.productQuantity;
+                return(<tr key={index}>
                   <td className="w-[100%] p-5">
                     <img
                       src={product.imageProduct}
@@ -78,33 +86,33 @@ const PanierItem = ({ producer, item }) => {
                     {product.productPrice}Fcf
                   </td>
                   <td className="text-[15px] p-5 font-medium">
-                    <span>-</span>
+                    <span onClick={() => handleDecrement(product._id)} className=' cursor-pointer'>-</span>
                     <span>{product.productQuantity} </span>
-                    <span>+</span>
+                    <span onClick={() => handleIncrementBtnClick(product._id)} className=' cursor-pointer' >+</span>
                   </td>
                   <td className="text-[15px] p-5 font-medium">
                     {product.productPrice * product.productQuantity}Fcf
                   </td>
                   <td className="text-[15px] p-5 font-medium">
-                  <Icon icon="typcn:delete-outline"  style={{color: '#666666', fontSize: '25px'}} 
-                  onClick={handleRemoveItem}/>
+                  <Icon icon="typcn:delete-outline"  style={{color: '#666666', fontSize: '25px', cursor:'pointer'}}
+                  onClick={() => handleRemoveItem(product._id)}/>
                   </td>
-                </tr>
-              ))}
+                </tr>)
+            })}
             </tbody>
             <thead>
-              <tr className="border-2 border-gris  ">
+              <tr className="border-2 border-[#E6E6E6]  ">
                 <th className=" text-[15px] text-main-gray p-3 ">
                   <Link to='/'>
-                  <button className="  h-[30%] p-1 pl-8 pr-8 bg-primary text-white text-[13px]  rounded-2xl ">
+                  <button className=" h-[30%] p-1 pl-8 pr-8 bg-primary text-white text-[13px] border-none  rounded-2xl ">
                     Retourner
                   </button>
                   </Link>
                 </th>
               </tr>
               <th>
-                <button className=" block w-[300%] m-3  p-2 pl-[55%] pr-[55%] h-[15%] bg-secondary text-white text-[13px]  rounded-sm ">
-                  Total {producer.producerName}  Fcf
+                <button className=" flex w-[300%] m-3  p-2 pl-[55%]  h-[15%] bg-secondary text-white text-[15px] font-semibold  rounded-sm ">
+                  Total {producer.producerName} <p className='ml-[30%] text-[15px] font-semibold'>{total}  Fcf</p> 
                 </button>
               </th>
             </thead>

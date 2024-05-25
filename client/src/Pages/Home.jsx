@@ -33,18 +33,18 @@ function Home() {
               <h2 className='text-[30px] font-semibold '>100% Local <br /> Du Champ à l'assiette</h2>
               <h3 className='text-[15px] font-medium flex leading-10 '>
               <Icon icon="lets-icons:check-fill"  style={{color: '#00893A', fontSize: '30px'}} />
-                Healthy & natural food for lovers of healthy food.</h3>
+              Ensemble pour une alimentation saine et naturelle.</h3>
               <p className='text-[12px] font-light text-gris ml-[5%] '>Ut quis tempus erat. Phasellus euismod bibendum magna non tristique.
                  Pellentesque semper vestibulum elit sed condimentum. 
                  Nunc pretium fermentum interdum. </p>
               <h3 className='text-[15px] font-medium flex leading-10 ' >
               <Icon icon="lets-icons:check-fill"  style={{color: '#00893A', fontSize: '30px'}} />
-              Every day fresh and quality products for you.</h3>
+              Chaque jour des produits frais et de qualité pour vous.</h3>
               <p className='text-[12px] font-light text-gris ml-[5%] '>Maecenas vehicula a justo quis laoreet. Sed in placerat nibh,
                  a posuere ex. Morbi sem neque, aliquam sed orci et, 
                 rhoncus lobortis felis. Sed vestibulum nisl sit amet sapien. </p>
                 <Link to="/shop">
-                  <button className="p-2 pl-8 pr-8 bg-primary text-white text-[13px] mt-6 rounded-2xl ml-7 flex">Shop Now<Icon icon="formkit:arrowright"  style={{color: 'white', marginTop: '4px'}} /></button>
+                  <button className="p-2 pl-8 pr-8 bg-primary text-white text-[13px] mt-6 rounded-2xl ml-7 flex">Achetez<Icon icon="formkit:arrowright"  style={{color: 'white', marginTop: '4px'}} /></button>
                 </Link>
             </div>
           </section>
