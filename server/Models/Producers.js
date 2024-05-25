@@ -30,6 +30,7 @@ const producerShema= new mongoose.Schema({
     product : 
                 [{ productName : {type : String, required: true},
                 imageProduct:{ type: String, required: true},
+                productPrice: {type: Number},
                 quantity : {type : Number , default :1},
                 isAvailable : {type : Boolean ,default : true}
                 }]

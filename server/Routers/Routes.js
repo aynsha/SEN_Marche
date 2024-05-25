@@ -23,6 +23,7 @@ router.get('/show-product/:id', productController.getProductById);
 router.put('/update-product/:productId', productController.updateProduct);
 // Route pour supprimer un produit par ID
 router.delete('/delete-product/:id', productController.deleteProduct);
+//router.get('/productType', productController.getProductType);
 
 // Producers routes 
 

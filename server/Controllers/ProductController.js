@@ -110,4 +110,15 @@ exports.deleteProduct = async (req, res) => {
       res.status(500).json({ error: error.message });
     }
   };
+  // exports.getProductType= async(req, res)=>{
+  //   const productType = req.query.productType;
+  // // Exemple de code pour récupérer des produits de la base de données
+  // Product.find({ productType: productType }, (err, products) => {
+  //   if (err) {
+  //     res.status(500).send(err);
+  //   } else {
+  //     res.status(200).json(products);
+  //   }
+  // });
+  // }
 

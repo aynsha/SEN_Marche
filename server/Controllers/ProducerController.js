@@ -34,6 +34,7 @@ exports.createProducer = async (req, res) => {
         const products = product && Array.isArray(product) ? product.map(p => ({
             productName: p.productName,
             imageProduct: productImageUrl,
+            productPrice: p.productPrice,
             quantity: p.quantity,
             isAvailable: p.isAvailable
         })) : [];
@@ -98,6 +99,7 @@ exports.updateProducer = async (req, res) => {
         // Vérifier et traiter la propriété product
         const products = product && Array.isArray(product) ? product.map(p => ({
             productName: p.productName,
+            productPrice: p.productPrice,
             imageProduct: productImageUrl,
             quantity: p.quantity,
             isAvailable: p.isAvailable
