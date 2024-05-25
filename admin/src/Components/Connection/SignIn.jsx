@@ -121,18 +121,9 @@ const SignIn = () => {
                         Se connecter
                     </button>
                 </form>
-
-                <div className='container-right-signin'>
-                    <div className='card-title-signup sign-in'>
-                       {/* <p id='new-user' className='text-[14px] m-2'>Vous N’avez pas de compte ? </p>
-                         <Link className='btn-form-connection' to='/signup'>
-                            Inscrivez-vous
-                        </Link> */}
-                    </div>
-                </div>
-            </div>
-            <div>
+                <div>
                 {error && <p style={{ color: "#E2B633" }}>{error.response.data.message}</p>}
+               </div>
             </div>
         </div>
         </div>

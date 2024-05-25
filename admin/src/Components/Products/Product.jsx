@@ -106,88 +106,106 @@ const Product = () => {
   };
 
   return (
-    <div>
-      
-      <div className=" mt-[5%] ml-[30%] w-[70%] ">
-      <h2 className="text-[25px] font-semibold">Produits</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <div>
-        <h3>{editing ? "Modifier le produit" : "Ajouter un produit"}</h3>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="file"
-            name="imageProduct"
-            onChange={(e) => handleImageChange(e, "imageProduct")}
-            accept="image/*"
-            required={!editing}
-          />
-          <input
-            type="text"
-            name="productName"
-            value={product.productName}
-            onChange={handleChange}
-            placeholder="Nom du produit"
-            required
-          />
-          <input
-            type="text"
-            name="producerName"
-            value={product.producer.producerName}
-            onChange={(e) => handleProducerChange(e, "producerName")}
-            placeholder="Producteur"
-            required
-          />
-          <input
-            type="file"
-            name="imageProducer"
-            onChange={(e) => handleImageChange(e, "imageProducer")}
-            accept="image/*"
-            required={!editing}
-          />
-          <input
-            type="text"
-            name="productType"
-            value={product.productType}
-            onChange={handleChange}
-            placeholder="Type de Produit"
-            required
-          />
-          <input
-            type="number"
-            name="productPrice"
-            value={product.productPrice}
-            onChange={handleChange}
-            placeholder="Prix"
-            required
-          />
-          <button type="submit">{editing ? "Modifier" : "Ajouter"}</button>
+    <div className="container w-[75%] ml-[20%] mx-auto p-4">
+      <h2 className="text-[35px] font-semibold mb-6">Produits</h2>
+      {error && <p className="text-red-500">{error}</p>}
+      <div className="mb-8">
+        <h3 className="text-2xl mb-4">{editing ? "Modifier le produit" : "Ajouter un produit"}</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="imageProduct">Image du produit</label>
+            <input
+              type="file"
+              name="imageProduct"
+              onChange={(e) => handleImageChange(e, "imageProduct")}
+              accept="image/*"
+              required={!editing}
+              className="border p-2 rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="productName">Nom du produit</label>
+            <input
+              type="text"
+              name="productName"
+              value={product.productName}
+              onChange={handleChange}
+              placeholder="Nom du produit"
+              required
+              className="border p-2 rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="producerName">Producteur</label>
+            <input
+              type="text"
+              name="producerName"
+              value={product.producer.producerName}
+              onChange={handleProducerChange}
+              placeholder="Producteur"
+              required
+              className="border p-2 rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="imageProducer">Image du producteur</label>
+            <input
+              type="file"
+              name="imageProducer"
+              onChange={(e) => handleImageChange(e, "imageProducer")}
+              accept="image/*"
+              required={!editing}
+              className="border p-2 rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="productType">Type de Produit</label>
+            <input
+              type="text"
+              name="productType"
+              value={product.productType}
+              onChange={handleChange}
+              placeholder="Type de Produit"
+              required
+              className="border p-2 rounded"
+            />
+          </div>
+          <div className="flex flex-col">
+            <label className="mb-1" htmlFor="productPrice">Prix</label>
+            <input
+              type="number"
+              name="productPrice"
+              value={product.productPrice}
+              onChange={handleChange}
+              placeholder="Prix"
+              required
+              className="border p-2 rounded"
+            />
+          </div>
+          <button type="submit" className="bg-blue-500 text-white p-2 rounded">{editing ? "Modifier" : "Ajouter"}</button>
         </form>
       </div>
-      
-        <h3>Liste des produits</h3>
-        <div  >
-        <ul  style={{ width:'97%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',gridGap: '10px' }}  >
-          {products.map((prod) => (
-            <li key={prod._id}>
-              <img src={prod.imageProduct} alt="Product" style={{ width:'30%', height:'auto' }} />
-              <p>Nom: {prod.productName}</p>
-              <p>Prix: {prod.productPrice} €</p>
-              <p>Type: {prod.productType}</p>
-              {prod.producer && (
-                <ul>
-                  <li>
-                    <p>Nom du producteur: {prod.producer.producerName}</p>
-                    <img src={prod.producer.imageProducer} alt="Producer"  style={{ width:'30%', height:'auto' }}  />
-                  </li>
-                </ul>
-              )}
-              <button onClick={() => editProduct(prod._id)}>Modifier</button>
-              <button onClick={() => deleteProduct(prod._id)}>Supprimer</button>
-            </li>
-          ))}
-        </ul>
-      </div>
-      </div>
+      <h3 className="text-[30px] font-semibold mb-4">Liste des produits</h3>
+      <ul className="grid grid-cols-1 h-auto sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {products.map((prod) => (
+          <li key={prod._id} className="border p-4 rounded shadow">
+            <img src={prod.imageProduct} alt="Product" className="w-32 h-auto " />
+            <p><strong>Nom:</strong> {prod.productName}</p>
+            <p><strong>Prix:</strong> {prod.productPrice} Fcf</p>
+            <p><strong>Type:</strong> {prod.productType}</p>
+            {prod.producer && (
+              <div className="mt-4">
+                <p><strong>Nom du producteur:</strong> {prod.producer.producerName}</p>
+                <img src={prod.producer.imageProducer} alt="Producer" className="w-32 h-auto mt-2" />
+              </div>
+            )}
+            <div className="mt-4 space-x-2">
+              <button onClick={() => editProduct(prod._id)} className=" bg-primary text-white p-2 rounded">Modifier</button>
+              <button onClick={() => deleteProduct(prod._id)} className="bg-[red] text-white p-2 rounded">Supprimer</button>
+            </div>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };

@@ -14,7 +14,7 @@ const Producer = () => {
       ville: "", 
       codePostal: 0
     },
-    product: [{ productName: "", imageProduct:"", quantity: 0, isAvailable: false}]
+    product: [{ productName: "",productPrice: 0, imageProduct:"", quantity: 0, isAvailable: false}]
   });
   const [editing, setEditing] = useState();
   const [producerId, setProducerId] = useState(null);
@@ -77,7 +77,7 @@ const Producer = () => {
           ville: "",
           codePostal: 0
         },
-        product: [{ productName: "", imageProduct:"", quantity: 0, isAvailable: false}]
+        product: [{ productName: "",productPrice: 0, imageProduct:"", quantity: 0, isAvailable: false}]
        });
     } catch (error) {
       console.error("Erreur lors de la soumission du producteur:", error);
@@ -119,7 +119,7 @@ const Producer = () => {
         const updatedProduct = [...producer.product];
         updatedProduct[index][name] = checked;
         setProducer({ ...producer, product: updatedProduct });
-    } else if (name === "productName" || name === "quantity"  ) {
+    } else if (name === "productName" || name === "quantity" || name=== "productPrice"  ) {
         const updatedProduct = [...producer.product];
         updatedProduct[index][name] = value;  
         setProducer({ ...producer, product: updatedProduct });
@@ -143,7 +143,7 @@ const Producer = () => {
       ...producer,
       product: [
         ...producer.product,
-        { productName: "", imageProduct: "", quantity: 0, isAvailable: false }
+        { productName: "", productPrice: 0, imageProduct: "", quantity: 0, isAvailable: false }
       ]
     });
 };
@@ -155,133 +155,197 @@ const removeProduct = (index) => {
 };
 
   return (
-    <div className=" mt-[5%] ml-[30%] w-[70%] ">
-      <h2>Producers</h2>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      <div >
-        <h3>{editing ? "Edit Producer" : "Add Producer"}</h3>
-        <form onSubmit={handleSubmit}>
-        <input
+    <div className="mt-10 mx-auto w-[70%] ml-[25%]  ">
+    <h2 className="text-[30px] font-bold mb-5">Producers</h2>
+    {error && <p className="text-red-500">{error}</p>}
+    <div className="block justify-between">
+      <div className="w-1/2 mr-5">
+        <h3 className="text-2xl mb-3">{editing ? "Edit Producer" : "Add Producer"}</h3>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
             type="file"
             name="imageProducer"
             onChange={(e) => handleImageChange(e, "imageProducer")}
             accept="image/*"
             required={!editing}
+            className="border p-2 rounded-md"
           />
-        <input
-    type="text"
-    name="producerName"
-    value={producer.producerName}
-    onChange={handleChange}
-    placeholder="Producer Name"
-  />
-  <input
-    type="email"
-    name="email"
-    value={producer.email}
-    onChange={handleChange}
-    placeholder="Producer Email"
-  />
-  <input
-    type="text"
-    name="phoneNumber"
-    value={producer.phoneNumber}
-    onChange={handleChange}
-    placeholder="Producer Phone Number"
-  />
-  <input
-    type="password"
-    name="password"
-    value={producer.password}
-    onChange={handleChange}
-    placeholder="Password"
-  />
-  <input
-    type="text"
-    id="addressRue"
-    name="address.addressRue"
-    value={producer.address.addressRue}
-    onChange={handleChange}
-    placeholder="Rue"
-  />
-  <input
-    type="text"
-    id="city"
-    name="address.ville"
-    value={producer.address.ville}
-    onChange={handleChange}
-    placeholder="ville"
-  />
-  <input
-    type="number"
-    id="codePostal"
-    name="address.codePostal"
-    value={producer.address.codePostal}
-    onChange={handleChange}
-    placeholder="Postal Code"
-  />
+          <input
+            type="text"
+            name="producerName"
+            value={producer.producerName}
+            onChange={handleChange}
+            placeholder="Producer Name"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="email"
+            name="email"
+            value={producer.email}
+            onChange={handleChange}
+            placeholder="Producer Email"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="text"
+            name="phoneNumber"
+            value={producer.phoneNumber}
+            onChange={handleChange}
+            placeholder="Producer Phone Number"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="password"
+            name="password"
+            value={producer.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="text"
+            id="addressRue"
+            name="address.addressRue"
+            value={producer.address.addressRue}
+            onChange={handleChange}
+            placeholder="Rue"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="text"
+            id="city"
+            name="address.ville"
+            value={producer.address.ville}
+            onChange={handleChange}
+            placeholder="ville"
+            className="border p-2 rounded-md"
+          />
+          <input
+            type="number"
+            id="codePostal"
+            name="address.codePostal"
+            value={producer.address.codePostal}
+            onChange={handleChange}
+            placeholder="Postal Code"
+            className="border p-2 rounded-md"
+          />
   {/* Available Products */}
   {producer.product.map((product, index) => (
     <div key={index} >
-      <input
-        type="text"
-        name="productName"
-        value={product.productName}
-        onChange={(e) => handleChange(e, index)}
-        placeholder="Product Name"
-      />
-      <input
-            type="file"
-            name="imageProduct"
-            onChange={(e) => handleImageChange(e, "imageProduct")}
-            accept="image/*"
-            required={!editing}
-          />
-      <input
-        type="text"
-        name="quantity"
-        value={product.quantity}
-        onChange={(e) => handleChange(e, index)}
-        placeholder="Product Quantity"
-      />
-      <input
-        type="checkbox"
-        name="isAvailable"
-        checked={product.isAvailable}
-        onChange={(e) => handleChange(e, index)}
-      />
-      <button onClick={() => removeProduct(index)}>Remove Product</button>
-    </div>
-  ))}
-  <button onClick={addProduct}>Add Product</button>
-  <button type="submit">{editing ? "Edit" : "Add"}</button>
-        </form>
-      </div>
-      <div>
-        <h3>List of Producers</h3>
-        <ul style={{ width:'97%', display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)',gridGap: '10px' }}>
-          {producers.map((prod) => (
-            <li key={prod._id}>
-              <img src={prod.imageProducer} alt="Producer" style={{ width:'20%', height:'auto' }} />
-             <p>Name: {prod.producerName}</p>
-            <p>Email: {prod.email}</p>
-            <p>Phone Number: {prod.phoneNumber}</p>
-            <p>Address: {prod.address.addressRue}, {prod.address.ville}, {prod.address.codePostal}</p>
-      <ul>
-        {prod.product.map((product, index) => (
-          <li key={index}>
-            <p>Product Name: {product.productName}</p>
-            <img src={product.imageProduct} alt="Product"  style={{ width:'30%', height:'auto' }}  />
-            <p>Product Quantity: {product.quantity}</p>
-            <p>Available Product: {product.isAvailable ? "Yes" : "No"}</p>
-          </li>
-        ))}
-      </ul>
-              <button onClick={() => editProducer(prod._id)}>Edit</button>
-              <button onClick={() => deleteProducer(prod._id)}>Delete</button>
-            </li>
-          ))}
-        </ul>
+                <input
+                  type="text"
+                  name="productName"
+                  value={product.productName}
+                  onChange={(e) => handleChange(e, index)}
+                  placeholder="Product Name"
+                  className="border p-2 rounded-md"
+                />
+                <input
+                  type="text"
+                  name="productPrice"
+                  value={product.productPrice}
+                  onChange={(e) => handleChange(e, index)}
+                  placeholder="Prix"
+                  className="border p-2 rounded-md"
+                />
+                <input
+                  type="file"
+                  name="imageProduct"
+                  onChange={(e) => handleImageChange(e, "imageProduct")}
+                  accept="image/*"
+                  required={!editing}
+                  className="border p-2 rounded-md"
+                />
+                <input
+                  type="text"
+                  name="quantity"
+                  value={product.quantity}
+                  onChange={(e) => handleChange(e, index)}
+                  placeholder="Product Quantity"
+                  className="border p-2 rounded-md"
+                />
+                <input
+                  type="checkbox"
+                  name="isAvailable"
+                  checked={product.isAvailable}
+                  onChange={(e) => handleChange(e, index)}
+                  className="border m-2 p-2 rounded-md"
+                />
+                <button
+                  type="button"
+                  onClick={() => removeProduct(index)}
+                  className="bg-[red] text-white px-2 py-1 rounded-md"
+                >
+                  Remove Product
+                </button>
+              </div>
+            ))}
+            <button
+              type="button"
+              onClick={addProduct}
+              className="bg-[green] text-white px-2 py-1 rounded-md mr-4"
+            >
+              Add Product
+            </button>
+            <button
+              type="submit"
+              className="bg-[blue] text-white  px-2 py-1 rounded-md"
+            >
+              {editing ? "Edit" : "Add"}
+            </button>
+          </form>
+        </div>
+        <div>
+          <h3 className="font-semibold text-[30px] m-10">List of Producers</h3>
+          <ul className="w-full grid grid-cols-3 gap-5">
+            {producers.map((prod) => (
+              <li key={prod._id} className="border p-4">
+                <img
+                  src={prod.imageProducer}
+                  alt="Producer"
+                  className="w-20 h-auto mb-2"
+                />
+                <p>Name: {prod.producerName}</p>
+                <p>Email: {prod.email}</p>
+                <p>Phone Number: {prod.phoneNumber}</p>
+                <p>
+                  Address: {prod.address.addressRue}, {prod.address.ville},{" "}
+                  {prod.address.codePostal}
+                </p>
+                <ul>
+                  {prod.product.map((product, index) => (
+                    <li key={index} className="border p-2 my-2">
+                      <p>Product Name: {product.productName}</p>
+                      <img
+                        src={product.imageProduct}
+                        alt="Product"
+                        className="w-32 h-auto"
+                      />
+                      <p>Product Quantity: {product.quantity}</p>
+                      <p>Prix: {product.productPrice} Fcf</p>
+                      <p>
+                        Available Product:{" "}
+                        {product.isAvailable ? "Yes" : "No"}
+                      </p>
+                    </li>
+                  ))}
+                </ul>
+                <button
+                  onClick={() => editProducer(prod._id)}
+                  className="bg-primary text-white px-2 py-1 rounded-md mr-2"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() => deleteProducer(prod._id)}
+                  className="bg-[red] text-white px-2 py-1 rounded-md"
+                >
+                  Delete
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
