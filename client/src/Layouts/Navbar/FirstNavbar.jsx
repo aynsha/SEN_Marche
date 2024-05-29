@@ -94,14 +94,14 @@ const [category, setCategory] = useState('');
  
   return (
     <div className="navbar">
-      <div className='bg-soft-primary fixed flex z-50 right-0 left-0 top-0 m-0 justify-center p-1.5 ... '>
+      <div className='lg:w-full xl:w-full bg-soft-primary fixed flex z-50 right-0 left-0 top-0 m-0 justify-center p-1.5 sm:w-full md:w-full '>
       <p className='text-xs text-hover ...'>Soldes d'été sur tous nos produits et livraison express gratuite - 50 % de réduction ! <Link to="" className='underline'> Achetez maintenant</Link></p>
       </div>
-      <div className=' bg-white h-16 mt-6 fixed z-50 p-3 right-0 left-0 top-0 m-0 flex  justify-around ...'>
+      <div className=' lg:w-full sm:w-full md:w-full xl:w-full bg-white h-16 mt-6 fixed z-50 p-3 right-0 left-0 top-0 m-0 flex  justify-around '>
         <div className='fixed z-50 p-3 top-2 right-0 left-0  m-0 flex  justify-around ...'>
-      <div className="w-32">
+      <div className=" w-32 lg:w-32 sm:w-24 md:w-28 xl:w-36">
         <Link to="/">
-        <img src={logo} alt="" className='object-scale-down w-32 -mt-2 ...'/>
+        <img src={logo} alt="" className='object-scale-down w-32 lg:w-32 sm:w-24 md:w-28 xl:w-36 -mt-2 ...'/>
         </Link>
       </div>
       <div className="search-category flex justify-center h-10 w-2/5 items-center border border-solid border-gris rounded overflow-hidden mt-4 ...">

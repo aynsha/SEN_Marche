@@ -11,13 +11,13 @@ const Footer = () => {
   return (
     <div>
       <div className='w-[100%] flex bg-soft-primary p-[1%] gap-[50px] justify-center '>
-        <img src={logo} alt="" className='w-[12%] ' />
+        <img src={logo} alt="" className='w-[12%] h-[75px] lg:h-[75px] lg:w-[12%] sm:w-[15%] sm:h-[55px] ' />
         <div className='mt-[3%] '>
-            <h3 className='text-[14px] font-medium text-[#003603] '>S'inscrire à notre NewsLetter</h3>
-            <p className='text-[10px] font-light text-[#7A997C] '>Pellentesque eu nibh eget mauris congue mattis matti.</p>
+            <h3 className='text-[14px] lg:text-[14px] sm:text-[12px] font-medium text-[#003603] '>S'inscrire à notre NewsLetter</h3>
+            <p className='text-[10px] lg:text-[10px] sm:text-[9px] font-light text-[#7A997C] '>Pellentesque eu nibh eget mauris congue mattis matti.</p>
         </div>
         <form action="#" className='flex mt-[3%]'>
-            <input type="email" name="Email" placeholder="Votre adresse email" className=' w-[330px] rounded-full h-[60%] text-[10px] p-5 ' required/><br/>
+            <input type="email" name="Email" placeholder="Votre adresse email" className=' w-[330px] lg:w-[330px] sm:w-[200px] rounded-full h-[60%] text-[10px] p-5 ' required/><br/>
             <button type="submit" className="w-[100px] -ml-[15%] rounded-full h-[70%]  bg-[#002603] text-white text-[13px]  ">Envoyer</button><br/>
         </form>
       </div>

@@ -10,7 +10,8 @@ import Panier from '../Components/Panier';
 import Products from '../Pages/Products.jsx';
 import Producers from '../Pages/Producers.jsx';
 import PrivateRoute from '../Services/PrivateRoute.js';
-import DetailProduct from '../Layouts/DetailProduct.jsx';
+import DetailProduct from '../Pages/DetailProduct.jsx';
+import DetailProducer from '../Pages/DetailsProducer.jsx'
 
 const router = createBrowserRouter([
   //Espace pour créer nos routes
@@ -19,6 +20,7 @@ const router = createBrowserRouter([
   {path: '/producers',  element: <Producers />},
   {path:'/inscription', element: <SignUp />},
   {path:'/detail_product/:id' , element: <DetailProduct/>} ,
+  {path:'/detail_producer/:id' , element: <DetailProducer/>} ,
   {path:'/connexion', element: <SignIn />},
   {path:'/prodc_fruitLegume', element: <FruitLegume />},
   {path:'/cat_fruitLegume', element: <CatFruiLegum />},

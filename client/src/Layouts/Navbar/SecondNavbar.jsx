@@ -25,7 +25,7 @@ const SecondNavbar = () => {
     <div>
       <div id="navbar-category" className='  flex mt-24 left-0 right-0 w-auto bg-bg-gray  items-center justify-center h-11 pt-6 pb-[25px] ' >
       <div
-                    className={`cat-legumes border-r-2 border-white w-36 z-50 relative ${showSubcategories==='legumes' ? 'active' : ''}`}
+                    className={`cat-legumes border-r-2 border-white w-36 lg:w-36 sm:w-28 md:w-32 xl:w-40  z-50 relative ${showSubcategories==='legumes' ? 'active' : ''}`}
                     onMouseEnter={() => setShowSubcategories('legumes')}
                     onMouseLeave={() => setShowSubcategories(null)}
                 >
@@ -185,7 +185,7 @@ const SecondNavbar = () => {
           )}
         </div>
         <div
-                    className={`cat-legumes border-r-2 border-white w-36 z-50 relative ${showSubcategories==='legums' ? 'active' : ''}`}
+                    className={`cat-legumes  w-36 z-50 relative ${showSubcategories==='legums' ? 'active' : ''}`}
                     onMouseEnter={() => setShowSubcategories('legums')}
                     onMouseLeave={() => setShowSubcategories(null)}
                 >

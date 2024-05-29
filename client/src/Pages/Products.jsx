@@ -85,19 +85,19 @@ const dispatch= useDispatch();
                 <div key={product._id} className='border border-gris p-[5%] hover:border hover:border-primary hover:shadow-md hover:shadow-hover '>
                  <Link to={`/detail_product/${product._id}`}>
                  <img src={product.imageProduct} alt=""/>
-                <h3 className='flex text-[14px] font-semibold w-[100%] gap-[8px] mt-[25px]'>
+                <h3 className='flex text-[14px] lg:text-[14px] sm:text-[8px] font-semibold w-[100%] gap-[8px] mt-[25px]'>
                 <Icon icon="system-uicons:location"  style={{color: '#2C742F',fontSize: '29px'}} />
                 {product.producer.producerName}
-                <img src={product.producer.imageProducer} alt=""  className='rounded-[80%] w-[30%] h-[55px]   border-2 border-secondary '/>
+                <img src={product.producer.imageProducer} alt=""  className='rounded-[80%] w-[30%] lg:w-[30%] sm:w-[30%] h-[55px] lg:h-[55px] sm:h-[35px]   border-2 border-secondary '/>
                 </h3>
-                <p className='text-[13px] ml-[10px] text-hover'>{product.productName}</p> 
+                <p className='text-[13px] lg:text-[13px] sm:text-[9px] ml-[10px] text-hover'>{product.productName}</p> 
                 </Link>
-                <p className='flex gap-20 ml-[16px] text-[14px] font-medium'>{product.productPrice}Fcf
-                <Icon icon="solar:cart-3-outline"   className='text-[35px]  rounded-[80%] border border-gris cursor-pointer p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white' 
+                <p className='flex gap-20 ml-[16px] text-[14px] lg:text-[14px] sm:text-[9px] font-medium'>{product.productPrice}Fcf
+                </p>
+                <Icon icon="solar:cart-3-outline"   className='text-[35px] lg:text-[35px] sm:text-[20px] ml-[70%] -mt-[5%] rounded-[80%] border border-gris cursor-pointer p-1 shadow-lg shadow-gris hover:bg-primary hover:text-white' 
                 onClick={() => handleAddToCart(product)}
                 />
-                </p>
-                <img src={rating} alt="" className='w-[70px] ml-[14px] ' /> 
+                <img src={rating} alt="" className='w-[70px] lg:w-[70px] sm:w-[40px] ml-[14px] ' /> 
                 
                 </div>
                 ))}
