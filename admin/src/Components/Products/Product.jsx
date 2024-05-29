@@ -182,7 +182,7 @@ const Product = () => {
               className="border p-2 rounded"
             />
           </div>
-          <button type="submit" className="bg-blue-500 text-white p-2 rounded">{editing ? "Modifier" : "Ajouter"}</button>
+          <button type="submit" className=" bg-hover text-white p-2 rounded">{editing ? "Modifier" : "Ajouter"}</button>
         </form>
       </div>
       <h3 className="text-[30px] font-semibold mb-4">Liste des produits</h3>
